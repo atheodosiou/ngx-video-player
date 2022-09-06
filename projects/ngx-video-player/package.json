@@ -1,0 +1,23 @@
+{
+  "name": "ngx-video-player",
+  "version": "0.0.1",
+  "keywords": [
+    "angular",
+    "video",
+    "player",
+    "video-player",
+    "ngx-video-player"
+  ],
+  "author": {
+    "name": "Anastasios Theodosiou",
+    "url": "https://anastasios.theodosiou.me"
+  },
+  "peerDependencies": {
+    "@angular/common": "^14.0.0",
+    "@angular/core": "^14.0.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "license": "MIT"
+}

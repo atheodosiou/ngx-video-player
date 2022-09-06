@@ -1,0 +1,246 @@
+:host {
+  background-color: purple;
+}
+
+.ngx-video-player__container {
+  position: relative;
+  width: 90%;
+  max-width: 1000px;
+  display: flex;
+  justify-content: center;
+  margin-inline: auto;
+  //For theater mode
+  background-color: black;
+
+  &:hover,
+  &.paused,
+  &:focus-within {
+    .ngx-video-player__controls-container {
+      opacity: 1;
+    }
+  }
+
+  //Toggle play and pause btns based on paused class
+  &.paused .pause-icon {
+    display: none;
+  }
+
+  &:not(.paused) .play-icon {
+    display: none;
+  }
+
+  //Toggle theater mode
+
+  &.theater,
+  &.full-screen {
+    max-width: initial;
+    width: 100%;
+  }
+
+  &.theater {
+    max-height: 90vh;
+  }
+
+  &.full-screen {
+    max-height: 100vh;
+  }
+
+  &.theater .tall {
+    display: none;
+  }
+
+  &:not(.theater) .wide {
+    display: none;
+  }
+
+  &.full-screen .open {
+    display: none;
+  }
+
+  &:not(.full-screen) .close {
+    display: none;
+  }
+
+  //Toggle volume icons based on data attributes
+
+  .volume-high-icon,
+  .volume-low-icon,
+  .volume-muted-icon {
+    display: none;
+  }
+
+  &[data-volume-level="high"] .volume-high-icon {
+    display: block;
+  }
+
+  &[data-volume-level="low"] .volume-low-icon {
+    display: block;
+  }
+
+  &[data-volume-level="muted"] .volume-muted-icon {
+    display: block;
+  }
+
+  //Toggle captions button
+
+  &.captions .captions-btn {
+    border-bottom: 3px solid red !important;
+  }
+
+  .ngx-video-player__controls-container {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    color: white;
+    z-index: 100;
+    opacity: 0;
+    transition: opacity 150ms ease-in-out;
+
+    .ngx-video-player__timeline-container {
+      height: 7px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+
+      &::before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.75), transparent);
+        width: 100%;
+        aspect-ratio: 6/1;
+        z-index: -1;
+        pointer-events: none;
+      }
+
+      &:hover .timeline {
+        height: 100%;
+      }
+
+      &:hover .timeline::before {
+        display: block;
+      }
+
+      &:hover .thumb-indicator {
+        --scale: 1 !important;
+        $scale: #{var(--scale)} !important;
+        display: block !important;
+      }
+
+      .timeline {
+        background-color: rgba(100, 100, 100, 0.5);
+        height: 3px;
+        width: 100%;
+        position: relative;
+
+        &::before {
+          //Gray section
+          content: "";
+          position: absolute;
+          left: 0;
+          top: 0;
+          bottom: 0;
+          right: calc(100% - var(--preview-position) * 100%);
+          background-color: rgb(150, 150, 150);
+          display: none;
+        }
+
+        &::after {
+          //Red section
+          content: "";
+          position: absolute;
+          left: 0;
+          top: 0;
+          bottom: 0;
+          right: calc(100% - var(--progress-position) * 100%);
+          background-color: red;
+        }
+
+        .thumb-indicator {
+          --scale: 0;
+          $scale: #{var(--scale)};
+          display: none;
+          position: absolute;
+          height: 200%;
+          top: -50%;
+          transform: translateX(-50%) scale(var($scale));
+          left: calc(var(--preview-position) * 100%);
+          background-color: red;
+          border-radius: 50%;
+          transition: transform 150ms ease-in-out;
+          aspect-ratio: 1 / 1;
+        }
+      }
+    }
+
+    .ngx-video-player__controls {
+      display: flex;
+      gap: 0.5rem;
+      padding: 0.25rem;
+      align-items: center;
+
+      button {
+        background: none;
+        border: none;
+        color: inherit;
+        padding: 0;
+        height: 30px;
+        width: 30px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        opacity: 0.85;
+        transition: opacity 150ms ease-in-out;
+
+        &:hover {
+          opacity: 1;
+        }
+
+        //For Speed button
+
+        &.wide-btn {
+          width: 50px;
+        }
+      }
+    }
+
+    .volume-container {
+      display: flex;
+      align-items: center;
+
+      .volume-slider {
+        width: 0;
+        transform-origin: left;
+        transform: scaleX(0);
+        transition: width 150ms ease-in-out, transform 150ms ease-in-out;
+      }
+
+      &:hover .volume-slider,
+      &:focus-within .volume-slider {
+        width: 100px;
+        transform: scaleX(1);
+      }
+    }
+
+    .duration-container {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      flex-grow: 1;
+    }
+  }
+
+  .ngx-video-player__player {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+
+    &::before {
+      background-color: black;
+    }
+
+    &::after {
+      background-color: black;
+    }
+  }
+}
